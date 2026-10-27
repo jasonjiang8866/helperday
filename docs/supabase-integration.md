@@ -34,7 +34,8 @@ Local email confirmation is disabled, so disposable `@example.test` accounts
 can sign up and log in without an inbox. All household/task actions use the
 public anon key plus an Auth-issued user JWT. The local service-role key is
 used only by Node-side audit assertions; it is never passed to the Expo build.
-No account credentials, JWTs or key files are written to disk. The script
+The runner does not write credential/env files; isolated browser profiles do
+store disposable Auth sessions, and are closed after each test. The script
 rebuilds `dist/` against the local endpoint with dotenv loading disabled.
 Rebuild normally before using that export outside this test.
 
@@ -90,11 +91,20 @@ Playwright traces, screenshots, video and HAR capture are disabled to avoid
 publishing Auth tokens. Do not publish raw Supabase status output or auth logs.
 
 Implementation-environment validation (2026-10-27): TypeScript, ESLint, existing
-5 PGlite/domain tests and discovery of all 7 integration tests passed. The
+5 PGlite/domain tests, 6 Demo browser regression tests, Web build and discovery
+of all 7 integration tests passed. The
 integration command was attempted and failed at the Docker preflight because
 this workspace has no Docker executable/daemon. **No successful local Supabase
-run or physical-device validation is claimed from that attempt.** A green run
+run or physical-device validation is claimed from that workspace attempt.** A green run
 of the dedicated CI job or the workstation command is the acceptance evidence.
 
 References: [Supabase local development](https://supabase.com/docs/guides/local-development/cli/getting-started),
 [pinned CLI config template](https://github.com/supabase/cli/blob/v2.54.11/pkg/config/templates/config.toml).
+
+On 2026-10-27, the dedicated [GitHub Actions run 40534225902](https://github.com/jasonjiang8866/helperday/actions/runs/40534225902)
+on commit `07b235c2b1a1fc9043b4188039e84c4c6bead88d` successfully applied
+`202610270001_helperday.sql` and passed **all 7 real local Supabase integration
+tests** (46.3 seconds for the test phase). The existing full CI also passed,
+including native bundle exports. This evidence comes from a Docker-backed
+GitHub runner and two browser contexts, not physical devices. Follow the PR's
+checks for the result corresponding to its latest HEAD.

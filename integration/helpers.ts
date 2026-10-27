@@ -121,5 +121,11 @@ export async function saved(page: Page, userId: string) {
 }
 export async function sync(page: Page) {
   await expect(page.getByText("Syncing…", { exact: true })).toHaveCount(0);
+  const response = page.waitForResponse(
+    (r) =>
+      r.url().endsWith("/rpc/dashboard") && r.request().method() === "POST",
+  );
   await page.getByRole("button", { name: "Sync now", exact: true }).click();
+  expect((await response).ok()).toBe(true);
+  await expect(page.getByText("Syncing…", { exact: true })).toHaveCount(0);
 }

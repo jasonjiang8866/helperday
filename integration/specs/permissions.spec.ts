@@ -64,6 +64,17 @@ test("real Auth JWT, RLS and RPC match the database permission contract", async 
     });
     await newTask(outsider.api, "Private task");
     for (const table of ["households", "members", "task_templates", "tasks"]) {
+      for (const api of [employer.api, helper.api]) {
+        const own = await api.from(table).select("*");
+        expect(own.error).toBeNull();
+        expect(own.data).toHaveLength(table === "households" ? 1 : 2);
+        expect(
+          own.data!.every(
+            (row) =>
+              (table === "households" ? row.id : row.household_id) === home,
+          ),
+        ).toBe(true);
+      }
       const result = await outsider.api
         .from(table)
         .select("*")
