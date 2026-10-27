@@ -20,6 +20,10 @@ The server locks the task, verifies access, recognizes already-applied mutation 
 
 Offline status changes are retried on foreground, every 15 seconds while running, and manually. Snapshot/outbox storage is scoped to account ID, with a separate demo key. Sign-out is blocked until pending changes are resolved. No background synchronization promise is made.
 
+## Repeatable local integration checks
+
+See [Supabase integration tests](supabase-integration.md) for the disposable Docker stack and two isolated authenticated browser sessions. It covers real JWT/RLS/RPC permissions, concurrent updates and invitations, offline persistence, lost-response retry and conflict note retention. The dedicated CI job is separate from the PGlite and Demo suites; its actual result is required before claiming that validation passed.
+
 ## Release checks still requiring external setup
 
 Apply the migration to a fresh Supabase project and verify employer/helper accounts on two separate devices. Test email confirmation, household invitation, task propagation, airplane-mode updates and two-device conflict handling. Test Android and iOS development builds, keyboard behavior, safe areas, secure token storage and device appearance. Deploy the web export with SPA routing and verify email confirmation URLs.

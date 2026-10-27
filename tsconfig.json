@@ -11,6 +11,8 @@
     "e2e/**/*.ts",
     "playwright.config.ts",
     "*.d.ts",
-    "nativewind-env.d.ts"
+    "nativewind-env.d.ts",
+    "integration/**/*.ts",
+    "playwright.integration.config.ts"
   ]
 }

@@ -1,0 +1,53 @@
+# Copied into a disposable workdir by scripts/test-supabase.mjs.
+project_id = "helperday-integration"
+
+[api]
+enabled = true
+port = 55431
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 55432
+shadow_port = 55430
+major_version = 17
+
+[db.migrations]
+enabled = true
+schema_paths = []
+
+[realtime]
+enabled = false
+
+[db.seed]
+enabled = false
+
+[studio]
+enabled = false
+
+[inbucket]
+enabled = false
+
+[storage]
+enabled = false
+
+[auth]
+enabled = true
+site_url = "http://127.0.0.1:4173"
+enable_signup = true
+
+[auth.email]
+enable_signup = true
+enable_confirmations = false
+
+[analytics]
+enabled = false
+
+[edge_runtime]
+enabled = false
+
+# Synthetic accounts share one loopback IP. Production limits are not changed.
+[auth.rate_limit]
+sign_in_sign_ups = 1000
+token_refresh = 1000

@@ -11,3 +11,6 @@ playwright-report/
 *.tsbuildinfo
 
 dist-native/
+
+supabase/.temp/
+supabase/.branches/

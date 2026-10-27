@@ -74,3 +74,7 @@ Tests execute the migration in PGlite's real Postgres engine with authenticated/
 - No production cloud, physical-device or store-signing validation is claimed until those environments are connected.
 
 See [architecture](docs/architecture.md) for data and synchronization decisions. MIT licensed.
+
+## Real local Supabase integration tests
+
+Run `npm run test:integration` after `npm ci` and installing Playwright Chromium, with Docker running. The isolated disposable stack exercises real JWT/RLS/RPC authorization, two-account browser sync, offline outbox persistence, conflicts and idempotent retries. See [setup, coverage and validation limits](docs/supabase-integration.md). This is separate from the Demo/PGlite checks and does not claim physical-device validation.
