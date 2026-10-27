@@ -108,3 +108,10 @@ tests** (46.3 seconds for the test phase). The existing full CI also passed,
 including native bundle exports. This evidence comes from a Docker-backed
 GitHub runner and two browser contexts, not physical devices. Follow the PR's
 checks for the result corresponding to its latest HEAD.
+
+CI sets `SUPABASE_INTERNAL_IMAGE_REGISTRY=docker.io` to use the official upstream
+Docker Hub image names supported by the pinned CLI. Its default public ECR
+mirror returned `toomanyrequests: Data limit exceeded` twice on hosted runners
+before any tests ran. Image tags and test assertions are unchanged. For the same
+workaround locally: `SUPABASE_INTERNAL_IMAGE_REGISTRY=docker.io npm run test:integration`.
+Registry/download failures still fail the job; they never count as test passes.

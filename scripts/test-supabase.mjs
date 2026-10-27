@@ -62,7 +62,7 @@ try {
     [
       "start",
       "-x",
-      "realtime,storage-api,imgproxy,studio,inbucket,edge-runtime,logflare,vector,supavisor",
+      "realtime,storage-api,imgproxy,studio,mailpit,edge-runtime,logflare,vector,supavisor",
     ],
     {
       stdio: ["ignore", "pipe", "inherit"],

@@ -11,6 +11,10 @@ jobs:
   real-auth-and-outbox:
     runs-on: ubuntu-24.04
     timeout-minutes: 25
+    env:
+      # The CLI supports official upstream Docker Hub images; public ECR shared
+      # runner pulls can fail with "toomanyrequests: Data limit exceeded".
+      SUPABASE_INTERNAL_IMAGE_REGISTRY: docker.io
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
