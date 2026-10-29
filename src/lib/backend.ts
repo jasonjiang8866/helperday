@@ -22,6 +22,7 @@ export const backend =
           autoRefreshToken: true,
           persistSession: true,
           detectSessionInUrl: false,
+          flowType: "pkce",
           lock: processLock,
         },
       })

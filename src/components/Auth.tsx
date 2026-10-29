@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import { backend, rpc } from "../lib/backend";
+import { nativeAuthRedirect } from "../lib/auth-callback";
 import { useApp } from "../state/AppProvider";
 import {
   Button,
@@ -28,7 +29,16 @@ export function Welcome() {
     setMessage("");
     try {
       const { data, error } = signup
-        ? await backend.auth.signUp({ email: email.trim(), password })
+        ? await backend.auth.signUp({
+            email: email.trim(),
+            password,
+            options: {
+              emailRedirectTo:
+                Platform.OS === "web"
+                  ? `${window.location.origin}/auth/callback`
+                  : nativeAuthRedirect,
+            },
+          })
         : await backend.auth.signInWithPassword({
             email: email.trim(),
             password,

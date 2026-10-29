@@ -47,12 +47,16 @@
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "test": "node --import tsx --test tests/*.test.ts",
+    "test": "node --import tsx --test tests/*.test.ts tests/*.test.mjs",
     "build:web": "expo export --platform web",
     "export:native": "expo export --platform android --platform ios --output-dir dist-native",
     "test:e2e": "playwright test",
     "preview:web": "node scripts/serve-web.mjs",
-    "test:integration": "node scripts/test-supabase.mjs"
+    "test:integration": "node scripts/test-supabase.mjs",
+    "check:android-config": "node scripts/check-android-preview.mjs --config-only",
+    "check:android-preview": "node scripts/check-android-preview.mjs",
+    "build:android:preview": "node scripts/build-android-preview.mjs",
+    "eas-build-post-install": "node scripts/check-android-preview.mjs --eas-hook"
   },
   "private": true
 }

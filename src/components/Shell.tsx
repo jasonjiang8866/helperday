@@ -229,7 +229,9 @@ export function Shell({ children }: React.PropsWithChildren) {
                 </Pressable>
               </View>
             )}
-            {!app.ready ? (
+            {path === "/auth/callback" ? (
+              children
+            ) : !app.ready ? (
               <Busy />
             ) : !active ? (
               <Welcome />

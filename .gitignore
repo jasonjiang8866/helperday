@@ -14,3 +14,15 @@ dist-native/
 
 supabase/.temp/
 supabase/.branches/
+artifacts/
+build-result.json
+credentials.json
+*.jks
+*.keystore
+*.p12
+*.mobileprovision
+*.apk
+*.aab
+android/
+ios/
+

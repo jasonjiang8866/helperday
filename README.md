@@ -26,7 +26,7 @@ For native development, use `npm run android` / `npm run ios` with a compatible 
 1. Create a Supabase project.
 2. Run `supabase/migrations/202610270001_helperday.sql` once in the project's SQL editor (or apply it with Supabase CLI migrations).
 3. Copy `.env.example` to `.env`. Set `EXPO_PUBLIC_SUPABASE_URL` and the project's **publishable/anon key**. Never use a service-role key in the client.
-4. Configure Supabase email authentication, email delivery and the confirmation Site URL for your deployed web origin. Restart Expo after setting environment variables.
+4. Configure Supabase email authentication, email delivery and the confirmation Site URL for your deployed web origin. Allow helperday://auth/callback for native signup and your web origin plus /auth/callback for web. See the [Android preview setup](docs/android-preview.md) for PKCE, same-device confirmation and password-login fallback. Restart Expo after setting environment variables.
 5. Register and confirm an employer account, sign in, and create a household. Set the agreed rest day.
 6. Create a helper invitation on Household. Share the code yourself; the app never sends an invitation automatically.
 7. On another device, register/confirm the helper account and choose **Use an invitation**. Enter the code and name. The role comes from the server invitation, not a client-side selector.
@@ -61,7 +61,7 @@ Tests execute the migration in PGlite's real Postgres engine with authenticated/
 
 `npm run build:web` produces `dist/`. Use a static host with SPA fallback to `index.html` for routes such as `/settings`. The exported environment values are baked in: rebuild when changing the backend. `npm run preview:web` serves the production export locally.
 
-`eas.json` includes an internal Android APK profile and a production profile. Native store release requires your Expo account, application signing and Apple/Google developer accounts. No store upload or public deployment is performed automatically.
+For Android phone testing, follow the [signed preview APK build, credential setup, installation and two-device checklist](docs/android-preview.md). Run npm run build:android:preview after linking the Expo project, setting EAS preview variables and configuring the remote Android keystore. The manual Android preview APK workflow waits for the build and verifies the downloaded APK. It never submits to a store. Actual APK construction/installation and physical two-device results remain unverified until executed.
 
 ## Deliberate first-version limits
 
