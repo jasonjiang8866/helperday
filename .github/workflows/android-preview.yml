@@ -25,6 +25,9 @@ jobs:
       - run: npm ci
       - run: node scripts/check-android-preview.mjs --project-only
       - run: npx expo install --check
+        env:
+          # Use the installed SDK's map, not moving online patch recommendations.
+          EXPO_OFFLINE: "1"
       - run: npm run typecheck
       - run: npm run lint
       - run: npm test

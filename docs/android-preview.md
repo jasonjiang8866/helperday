@@ -27,8 +27,10 @@ Use Node **22.23.3**, EAS CLI **27.1.0** and the committed npm lockfile. Expo re
    git switch feat/helperday-mvp
    npm ci
    npm run check:android-config
-   npx expo install --check
+   EXPO_OFFLINE=1 npx expo install --check
    ```
+
+   CI checks compatibility against the installed SDK's bundled dependency map, with the lockfile unchanged. This is not an online latest-patch check: run npx expo install --check separately when reviewing SDK patch upgrades and update the lockfile deliberately. Online recommendations can move independently of a source commit.
 
 2. Sign in locally, select/create the intended free Expo project under the correct account/organization, and link its real UUID:
 
