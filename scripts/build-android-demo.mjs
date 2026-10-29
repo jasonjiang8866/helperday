@@ -44,7 +44,10 @@ function build() {
   // API 37 is published as android-37.0. Set the minor DSL on every Android
   // module after its own compileSdk is configured, before AGP finalizes variants.
   const rootGradle = "android/build.gradle";
-  writeFileSync(rootGradle, readFileSync(rootGradle, "utf8") + `
+  const rootSource = readFileSync(rootGradle, "utf8");
+  const rootPlugin = 'apply plugin: "expo-root-project"';
+  if (!rootSource.includes(rootPlugin)) throw new Error("Expo root template changed: review SDK minor configuration.");
+  writeFileSync(rootGradle, rootSource.replace(rootPlugin, `
 subprojects { subproject ->
     ["com.android.application", "com.android.library"].each { pluginId ->
         subproject.plugins.withId(pluginId) {
@@ -54,7 +57,8 @@ subprojects { subproject ->
         }
     }
 }
-`);
+${rootPlugin}
+`));
   if (process.argv.includes("--prepare-only")) return;
   // Release variant embeds JS/Hermes and disables the development launcher/Metro.
   // Expo's generated release signingConfig uses only its public debug.keystore.
