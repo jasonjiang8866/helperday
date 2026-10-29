@@ -62,7 +62,7 @@ with confidential household data. App package and callback scheme remain
 
 Install JDK 17 and an Android SDK; set `ANDROID_HOME` and add platform-tools and
 cmdline-tools to PATH. The locked RN 0.88 / Expo 58 toolchain uses Android platform
-37, build-tools 37.0.0, NDK 27.1.12297006 and CMake 3.22.1 (see CI).
+37.0 (`platforms;android-37.0`), build-tools 37.0.0, NDK 27.1.12297006 and CMake 3.22.1 (see CI).
 
 ```sh
 git switch feat/helperday-mvp
@@ -76,7 +76,7 @@ Expo config/plugins instead of editing generated files. `--prepare-only` on
 `node scripts/build-android-demo.mjs` checks native generation without claiming a
 compiled APK. Compilation requires network access to npm/Maven/Gradle/Android SDK
 repositories and sufficient runner disk/RAM. Build-tool versions/lockfile/source
-are recorded; bit-for-bit identical APK bytes are not promised.
+are recorded. API 37 is published with a minor version; the script sets `compileSdkMinor = 0` for Android modules compiling against API 37. Bit-for-bit identical APK bytes are not promised.
 
 The Demo build disables dotenv and removes all EXPO_ / EAS_ / SUPABASE_ variables
 from child build processes before injecting empty public backend fields. A local

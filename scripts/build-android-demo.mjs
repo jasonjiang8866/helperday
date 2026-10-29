@@ -41,6 +41,20 @@ function build() {
     writeFileSync("package.json", originalPackage);
   }
   checkGeneratedProject(readFileSync("android/app/build.gradle", "utf8"));
+  // API 37 is published as android-37.0. Set the minor DSL on every Android
+  // module after its own compileSdk is configured, before AGP finalizes variants.
+  const rootGradle = "android/build.gradle";
+  writeFileSync(rootGradle, readFileSync(rootGradle, "utf8") + `
+subprojects { subproject ->
+    ["com.android.application", "com.android.library"].each { pluginId ->
+        subproject.plugins.withId(pluginId) {
+            subproject.extensions.getByName("androidComponents").finalizeDsl { dsl ->
+                if (dsl.compileSdk == 37) { dsl.compileSdkMinor = 0 }
+            }
+        }
+    }
+}
+`);
   if (process.argv.includes("--prepare-only")) return;
   // Release variant embeds JS/Hermes and disables the development launcher/Metro.
   // Expo's generated release signingConfig uses only its public debug.keystore.
@@ -56,6 +70,7 @@ function build() {
     sourceCommit, package: "com.helperday.app", variant: "release", signing: "public Android debug key; internal testing only",
     backend: "none (local Demo)", architectures: ["arm64-v8a", "x86_64"], sha256,
     node: process.version, expo: JSON.parse(readFileSync("node_modules/expo/package.json")).version,
+    compileSdk: "37.0", buildTools: "37.0.0", ndk: "27.1.12297006",
     lockfileSha256: createHash("sha256").update(readFileSync("package-lock.json")).digest("hex"),
     apkInspection: "not yet run", emulator: "not yet run", physicalDevice: "UNVERIFIED",
   }, null, 2) + "\n");
