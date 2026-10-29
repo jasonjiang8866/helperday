@@ -1,0 +1,27 @@
+# Keep these aligned with .gitignore. EAS must never upload local credentials.
+node_modules/
+.git/
+.expo/
+dist/
+dist-native/
+web-build/
+.env
+.env.*
+!.env.example
+coverage/
+test-results/
+playwright-report/
+*.tsbuildinfo
+supabase/.temp/
+supabase/.branches/
+artifacts/
+build-result.json
+credentials.json
+*.jks
+*.keystore
+*.p12
+*.mobileprovision
+*.apk
+*.aab
+android/
+ios/

@@ -1,0 +1,32 @@
+name: Local Supabase integration
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: supabase-integration-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  real-auth-and-outbox:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      # The CLI supports official upstream Docker Hub images; public ECR shared
+      # runner pulls can fail with "toomanyrequests: Data limit exceeded".
+      SUPABASE_INTERNAL_IMAGE_REGISTRY: docker.io
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:integration
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: supabase-integration-results
+          path: test-results/integration-junit.xml
+          if-no-files-found: warn
