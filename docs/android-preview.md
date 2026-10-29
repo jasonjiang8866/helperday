@@ -1,5 +1,7 @@
 # Android internal APK testing
 
+For a no-account, offline Demo APK built with Gradle on GitHub Actions, see [android-demo.md](android-demo.md). The following EAS path is separate and requires Expo authorization.
+
 This procedure uses the existing preview profile to build a **signed standalone release APK**, without Expo Go, Metro, Google Play registration or store submission. It does not upgrade a plan or provision paid services. A manually started EAS build can consume the account's quota/credits; check existing billing/limits first.
 
 ## Validation boundary

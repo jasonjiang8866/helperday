@@ -61,7 +61,9 @@ Tests execute the migration in PGlite's real Postgres engine with authenticated/
 
 `npm run build:web` produces `dist/`. Use a static host with SPA fallback to `index.html` for routes such as `/settings`. The exported environment values are baked in: rebuild when changing the backend. `npm run preview:web` serves the production export locally.
 
-For Android phone testing, follow the [signed preview APK build, credential setup, installation and two-device checklist](docs/android-preview.md). Run npm run build:android:preview after linking the Expo project, setting EAS preview variables and configuring the remote Android keystore. The manual Android preview APK workflow waits for the build and verifies the downloaded APK. It never submits to a store. Actual APK construction/installation and physical two-device results remain unverified until executed.
+For an installable offline Demo, use the [standalone Android APK workflow and installation guide](docs/android-demo.md). It compiles on GitHub Actions with public debug signing and embeds JS/Hermes; no Expo account, Metro server or Supabase project is needed. The workflow inspects the APK and separately tests it in an Android emulator. Physical phone validation remains unverified until performed.
+
+For a real backend build, retain the [EAS signed preview setup and two-device checklist](docs/android-preview.md). That separate path requires an Expo account/project, authorization, EAS preview variables and an Android keystore. Neither workflow publishes to an app store.
 
 ## Deliberate first-version limits
 

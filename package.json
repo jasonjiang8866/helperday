@@ -56,7 +56,8 @@
     "check:android-config": "node scripts/check-android-preview.mjs --config-only",
     "check:android-preview": "node scripts/check-android-preview.mjs",
     "build:android:preview": "node scripts/build-android-preview.mjs",
-    "eas-build-post-install": "node scripts/check-android-preview.mjs --eas-hook"
+    "eas-build-post-install": "node scripts/check-android-preview.mjs --eas-hook",
+    "build:android:demo": "node scripts/build-android-demo.mjs"
   },
   "private": true
 }
