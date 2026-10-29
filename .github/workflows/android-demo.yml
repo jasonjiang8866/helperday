@@ -37,6 +37,8 @@ jobs:
         env:
           EXPO_OFFLINE: "1"
       - uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: false
       - name: Build embedded-JS Demo APK using public debug signing only
         run: npm run build:android:demo
       - name: Inspect the actual APK
@@ -46,6 +48,13 @@ jobs:
           name: helperday-demo-apk-${{ github.event.pull_request.head.sha || github.sha }}
           retention-days: 14
           if-no-files-found: error
+          path: artifacts/
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: helperday-demo-unverified-${{ github.event.pull_request.head.sha || github.sha }}
+          retention-days: 7
+          if-no-files-found: ignore
           path: artifacts/
       - name: Record build validation boundary
         run: |

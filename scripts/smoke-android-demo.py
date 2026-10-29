@@ -29,6 +29,7 @@ def dump():
 
 def find(label, *, timeout=30, scroll=False):
     deadline = time.monotonic() + timeout
+    searched_from_top = False
     while time.monotonic() < deadline:
         root = dump()
         for node in root.iter('node'):
@@ -37,8 +38,14 @@ def find(label, *, timeout=30, scroll=False):
                 if len(bounds) == 4 and bounds[2] > bounds[0] and bounds[3] > bounds[1]:
                     return bounds
         if scroll:
-            # Keep swipes above the fixed bottom navigation.
-            adb('shell', 'input', 'swipe', '500', '1600', '500', '650', '350')
+            # Search from the top once, then scan down. A target may be above
+            # the viewport after selecting an option or revisiting Settings.
+            if not searched_from_top:
+                for _ in range(3):
+                    adb('shell', 'input', 'swipe', '500', '650', '500', '1600', '250')
+                searched_from_top = True
+            else:
+                adb('shell', 'input', 'swipe', '500', '1600', '500', '650', '350')
         time.sleep(0.5)
     raise AssertionError(f'Android UI did not show {label!r}')
 

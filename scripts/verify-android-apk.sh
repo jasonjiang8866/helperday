@@ -15,14 +15,14 @@ tools_dir="$(find "$sdk_root/build-tools" -mindepth 1 -maxdepth 1 -type d | sort
 mkdir -p artifacts
 "$tools_dir/apksigner" verify --verbose --print-certs "$apk" | tee artifacts/apk-signature.txt
 "$tools_dir/aapt" dump badging "$apk" > artifacts/apk-badging.txt
-rg -q "^package: name='com.helperday.app' " artifacts/apk-badging.txt
-rg -q "^launchable-activity:" artifacts/apk-badging.txt
-if rg -q "^application-debuggable" artifacts/apk-badging.txt; then
+grep -qE "^package: name='com.helperday.app' " artifacts/apk-badging.txt
+grep -qE "^launchable-activity:" artifacts/apk-badging.txt
+if grep -qE "^application-debuggable" artifacts/apk-badging.txt; then
   echo "Expected a release preview APK, received a debuggable app." >&2
   exit 1
 fi
 "$tools_dir/aapt" dump xmltree "$apk" AndroidManifest.xml > artifacts/apk-android-manifest.txt
-rg -q 'android:scheme.*"helperday"' artifacts/apk-android-manifest.txt
+grep -qE 'android:scheme.*"helperday"' artifacts/apk-android-manifest.txt
 node --input-type=module -e '
   import { readFileSync, writeFileSync } from "node:fs";
   const p = "artifacts/build-manifest.json";
